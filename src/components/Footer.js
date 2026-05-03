@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { MessageCircle, Mail, Phone, MapPin } from 'lucide-react';
+import { MessageCircle, Mail, Phone, MapPin, Facebook, Instagram } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -33,6 +33,15 @@ const Footer = () => {
             </div>
             <div style={{ display: 'flex', gap: '1rem', color: '#aaa' }}>
               <MapPin size={18} /> <span>Kathmandu, Nepal</span>
+            </div>
+            
+            <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1.5rem' }}>
+              <a href="https://www.facebook.com/share/18QK1uAu2Y/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', transition: 'var(--transition)' }}>
+                <Facebook size={24} />
+              </a>
+              <a href="https://www.instagram.com/magzine.np?igsh=ZXYxcnowNXhsZjZ0" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', transition: 'var(--transition)' }}>
+                <Instagram size={24} />
+              </a>
             </div>
           </div>
         </div>
