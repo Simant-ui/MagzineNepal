@@ -58,7 +58,7 @@ export async function POST(req) {
             <p style="font-size: 1.2rem; background: #fffdf0; padding: 10px; border-radius: 5px;"><strong>Total Price:</strong> Rs. ${totalPrice}</p>
             
             <h2 style="color: #d4a373; border-bottom: 2px solid #f0e2d3; padding-bottom: 10px;">Photos Access</h2>
-            <p><strong>Link:</strong> <a href="${driveLink}" style="color: #d4a373; font-weight: bold; text-decoration: underline;">${driveLink}</a></p>
+            <p><strong>Link:</strong> ${driveLink ? `<a href="${driveLink}" style="color: #d4a373; font-weight: bold; text-decoration: underline;">${driveLink}</a>` : 'N/A'}</p>
             
             <h2 style="color: #d4a373; border-bottom: 2px solid #f0e2d3; padding-bottom: 10px;">Description</h2>
             <p style="background: #f9f9f9; padding: 15px; border-radius: 5px; font-style: italic;">
