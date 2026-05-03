@@ -72,7 +72,6 @@ const OrdersModal = ({ isOpen, onClose }) => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '2rem'
       padding: '1rem'
     }}>
       <motion.div 
