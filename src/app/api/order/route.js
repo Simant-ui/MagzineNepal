@@ -32,7 +32,7 @@ export async function POST(req) {
 
     const mailOptions = {
       from: '"Magzine Memories" <magzinenepal@gmail.com>',
-      to: 'magzinenepal@gmail.com, shrestha246810@gmail.com, simantshrestha2002@gmail.com, krishna726175@gmail.com',
+      to: 'magzinenepal@gmail.com, shrestha246810@gmail.com, simantshrestha2002@gmail.com, krishna726175@gmail.com, 2005.khatiwadanelson@gmail.com',
       replyTo: email,
       subject: `New Order from ${fullName} - ${pages} Pages`,
       html: `
