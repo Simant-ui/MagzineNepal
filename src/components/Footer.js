@@ -29,7 +29,7 @@ const Footer = () => {
               <Phone size={18} /> <span>+977 9863811729 / 9824718666</span>
             </div>
             <div style={{ display: 'flex', gap: '1rem', marginBottom: '0.8rem', color: '#aaa' }}>
-              <Mail size={18} /> <span>magzinenepal@gmail.com</span>
+              <Mail size={18} /> <span>krishna726175@gmail.com</span>
             </div>
             <div style={{ display: 'flex', gap: '1rem', color: '#aaa' }}>
               <MapPin size={18} /> <span>Kathmandu, Nepal</span>
