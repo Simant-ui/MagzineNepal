@@ -16,8 +16,12 @@ const OrdersModal = ({ isOpen, onClose }) => {
       try {
         const response = await fetch('/api/orders');
         const data = await response.json();
+        const serverOrders = Array.isArray(data) ? data : [];
+        
         // Combine with local storage if needed, but primary source is server
-        setOrders(data.reverse());
+        const saved = JSON.parse(localStorage.getItem('magzine_orders') || '[]');
+        const merged = [...saved.filter(l => !serverOrders.some(d => d.id === l.id)), ...serverOrders];
+        setOrders(merged.reverse());
       } catch (error) {
         console.error('Failed to fetch orders from server:', error);
         // Fallback to local storage
@@ -221,6 +225,18 @@ const OrdersModal = ({ isOpen, onClose }) => {
                         {selectedOrder.occasion === 'other' ? selectedOrder.otherOccasion : selectedOrder.occasion}
                       </p>
                     </div>
+                    {selectedOrder.deliveryLocation && (
+                      <div className="glass" style={{ padding: '1rem', borderRadius: '10px' }}>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Delivery Location</p>
+                        <p style={{ fontWeight: '600' }}>{selectedOrder.deliveryLocation}</p>
+                      </div>
+                    )}
+                    {selectedOrder.nearestLandmark && (
+                      <div className="glass" style={{ padding: '1rem', borderRadius: '10px' }}>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Nearest Landmark</p>
+                        <p style={{ fontWeight: '600' }}>{selectedOrder.nearestLandmark}</p>
+                      </div>
+                    )}
                   </div>
 
                   <div style={{ marginBottom: '2rem' }}>

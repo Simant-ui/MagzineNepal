@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { fullName, phone, email, occasion, otherOccasion, pages, description, theme, language, delivery, totalPrice, driveLink } = body;
+    const { fullName, phone, email, occasion, otherOccasion, pages, description, theme, language, delivery, totalPrice, driveLink, deliveryLocation, nearestLandmark } = body;
     
     const finalOccasion = occasion === 'other' ? otherOccasion : occasion;
 
@@ -56,6 +56,10 @@ export async function POST(req) {
             <p><strong>Language:</strong> ${language || 'N/A'}</p>
             <p><strong>Delivery Preference:</strong> ${delivery}</p>
             <p style="font-size: 1.2rem; background: #fffdf0; padding: 10px; border-radius: 5px;"><strong>Total Price:</strong> Rs. ${totalPrice}</p>
+            
+            <h2 style="color: #d4a373; border-bottom: 2px solid #f0e2d3; padding-bottom: 10px;">Delivery Details</h2>
+            <p><strong>Delivery Location:</strong> ${deliveryLocation || 'N/A'}</p>
+            <p><strong>Nearest Landmark:</strong> ${nearestLandmark || 'N/A'}</p>
             
             <h2 style="color: #d4a373; border-bottom: 2px solid #f0e2d3; padding-bottom: 10px;">Photos Access</h2>
             <p><strong>Link:</strong> ${driveLink ? `<a href="${driveLink}" style="color: #d4a373; font-weight: bold; text-decoration: underline;">${driveLink}</a>` : 'N/A'}</p>

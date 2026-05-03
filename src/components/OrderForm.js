@@ -15,12 +15,15 @@ const OrderForm = () => {
     delivery: 'printed',
     pages: 8,
     driveLink: '',
-    otherOccasion: ''
+    otherOccasion: '',
+    deliveryLocation: '',
+    nearestLandmark: ''
   });
 
   const totalPrice = formData.pages * 105;
 
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     if (e.target.name === 'phone') {
@@ -50,10 +53,13 @@ const OrderForm = () => {
 
     // Create order object
     const newOrder = {
+      id: Date.now().toString(),
       ...formData,
       date: new Date().toISOString(),
       totalPrice: totalPrice
     };
+
+    setIsLoading(true);
 
     // Save to server-side persistence (for cross-device access)
     try {
@@ -72,28 +78,28 @@ const OrderForm = () => {
       localStorage.setItem('magzine_orders', JSON.stringify([...existingOrders, newOrder]));
     } catch (e) { console.error(e); }
 
-    // Send email notification
-    setIsLoading(true);
+    // Send email notification in background so user doesn't have to wait
     fetch('/api/order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newOrder)
-    }).then(async res => {
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        console.error('Failed to send email notification:', data.error);
-        alert("Wait! Your order was saved locally, but we couldn't send the email to the admin. Error: " + (data.error || 'Unknown error'));
-      } else {
-        console.log('Email sent successfully!');
-      }
-    }).catch(err => {
-      console.error('Error calling email API:', err);
-      alert("Network Error: Could not reach the email server. Please check your internet.");
-    });
+    }).then(res => res.json()).then(data => {
+      if (!data.success) console.error('Failed to send email:', data.error);
+    }).catch(err => console.error('Error calling email API:', err));
 
     console.log('Order Saved & Email Sent:', newOrder);
+    setIsLoading(false);
     setSubmitted(true);
   };
+
+  const isFormComplete = 
+    formData.fullName && 
+    formData.email &&
+    formData.phone.length === 10 && 
+    formData.deliveryLocation &&
+    formData.nearestLandmark &&
+    (formData.driveLink.includes('google.com') || formData.driveLink.includes('goo.gl')) &&
+    (formData.occasion !== 'other' || formData.otherOccasion);
 
   if (submitted) {
     return (
@@ -286,44 +292,57 @@ const OrderForm = () => {
             </div>
           </div>
 
-          <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-            <motion.button 
-              type="submit" 
-              className="btn-primary" 
-              disabled={
-                !formData.fullName || 
-                !formData.email ||
-                formData.phone.length !== 10 || 
-                (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) ||
-                (formData.occasion === 'other' && !formData.otherOccasion)
-              }
-              animate={{
-                scale: (!formData.fullName || !formData.email || formData.phone.length !== 10 || (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) || (formData.occasion === 'other' && !formData.otherOccasion)) ? 1 : [1, 1.02, 1],
-                boxShadow: (!formData.fullName || !formData.email || formData.phone.length !== 10 || (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) || (formData.occasion === 'other' && !formData.otherOccasion)) 
-                  ? 'none' 
-                  : '0 0 20px rgba(212, 163, 115, 0.4)'
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              style={{ 
-                width: '100%', 
-                fontSize: '1.2rem',
-                opacity: (!formData.fullName || !formData.email || formData.phone.length !== 10 || (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) || (formData.occasion === 'other' && !formData.otherOccasion)) ? 0.5 : 1,
-                cursor: (!formData.fullName || !formData.email || formData.phone.length !== 10 || (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) || (formData.occasion === 'other' && !formData.otherOccasion)) ? 'not-allowed' : 'pointer',
-                border: 'none',
-                padding: '1.2rem',
-                borderRadius: 'var(--radius-md)'
-              }}
-            >
-              Place Your Order
-            </motion.button>
-            <p style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              No immediate payment required. We will contact you for confirmation.
-            </p>
+          <div className="grid grid-2" style={{ marginTop: '1.5rem' }}>
+            <div className="input-group">
+              <label>Delivery Location (City, Area) *</label>
+              <input type="text" name="deliveryLocation" required placeholder="e.g. Kathmandu, Baneshwor" value={formData.deliveryLocation} onChange={handleChange} />
+            </div>
+            <div className="input-group">
+              <label>Nearest Landmark *</label>
+              <input type="text" name="nearestLandmark" required placeholder="e.g. Near Bhatbhateni" value={formData.nearestLandmark} onChange={handleChange} />
+            </div>
           </div>
+
+          {isFormComplete ? (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              style={{ textAlign: 'center', marginTop: '3rem' }}
+            >
+              <motion.button 
+                type="submit" 
+                className="btn-primary" 
+                disabled={isLoading}
+                animate={{
+                  scale: [1, 1.02, 1],
+                  boxShadow: '0 0 20px rgba(212, 163, 115, 0.4)'
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                style={{ 
+                  width: '100%', 
+                  fontSize: '1.2rem',
+                  cursor: isLoading ? 'not-allowed' : 'pointer',
+                  opacity: isLoading ? 0.7 : 1,
+                  border: 'none',
+                  padding: '1.2rem',
+                  borderRadius: 'var(--radius-md)'
+                }}
+              >
+                {isLoading ? 'Processing...' : 'Place Your Order'}
+              </motion.button>
+              <p style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                No immediate payment required. We will contact you for confirmation.
+              </p>
+            </motion.div>
+          ) : (
+            <div style={{ textAlign: 'center', marginTop: '3rem', padding: '1.2rem', border: '1px dashed #ccc', borderRadius: 'var(--radius-md)' }}>
+              <p style={{ color: '#888', margin: 0 }}>Please fill all required fields to place your order.</p>
+            </div>
+          )}
         </motion.form>
       </div>
     </section>

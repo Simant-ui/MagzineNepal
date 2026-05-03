@@ -1,6 +1,20 @@
 "use client";
 import React from 'react';
-import { MessageCircle, Mail, Phone, MapPin, Facebook, Instagram } from 'lucide-react';
+import { MessageCircle, Mail, Phone, MapPin } from 'lucide-react';
+
+const FacebookIcon = ({ size = 24, color = "currentColor" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+  </svg>
+);
+
+const InstagramIcon = ({ size = 24, color = "currentColor" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);
 
 const Footer = () => {
   return (
@@ -37,10 +51,10 @@ const Footer = () => {
             
             <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1.5rem' }}>
               <a href="https://www.facebook.com/share/18QK1uAu2Y/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', transition: 'var(--transition)' }}>
-                <Facebook size={24} />
+                <FacebookIcon size={24} />
               </a>
               <a href="https://www.instagram.com/magzine.np?igsh=ZXYxcnowNXhsZjZ0" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', transition: 'var(--transition)' }}>
-                <Instagram size={24} />
+                <InstagramIcon size={24} />
               </a>
             </div>
           </div>
