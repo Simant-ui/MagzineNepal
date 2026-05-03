@@ -22,30 +22,17 @@ const Header = () => {
           <span className="font-serif" style={{ color: 'var(--primary)' }}>Magzine</span> <span className="font-serif" style={{ color: '#000' }}>Nepal</span>
         </div>
         
-        {/* Desktop Nav */}
-        <nav className="nav-desktop" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-          <a href="#" style={{ textDecoration: 'none', color: 'var(--text-main)', fontWeight: 500, fontSize: '0.9rem' }}>Home</a>
-          <a href="#samples" style={{ textDecoration: 'none', color: 'var(--text-main)', fontWeight: 500, fontSize: '0.9rem' }}>Samples</a>
+        <nav style={{ display: 'flex', gap: 'clamp(0.5rem, 2vw, 1.5rem)', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+          <a href="#" className="nav-link-hide" style={{ textDecoration: 'none', color: 'var(--text-main)', fontWeight: 500, fontSize: '0.9rem' }}>Home</a>
+          <a href="#samples" className="nav-link-hide" style={{ textDecoration: 'none', color: 'var(--text-main)', fontWeight: 500, fontSize: '0.9rem' }}>Samples</a>
           <button 
             onClick={() => setIsModalOpen(true)}
             className="btn-primary"
-            style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}
+            style={{ padding: '0.5rem 1rem', fontSize: 'clamp(0.7rem, 2vw, 0.85rem)' }}
           >
             Saved Order
           </button>
-          <a href="#order" className="btn-primary" style={{ padding: '0.6rem 1.5rem', fontSize: '0.85rem', borderRadius: '12px' }}>Order Now</a>
-        </nav>
-
-        {/* Mobile Nav */}
-        <nav className="nav-mobile" style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
-          <button 
-            onClick={() => setIsModalOpen(true)}
-            className="btn-primary"
-            style={{ padding: '0.4rem 0.8rem', fontSize: '0.75rem' }}
-          >
-            Orders
-          </button>
-          <a href="#order" className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.75rem', borderRadius: '8px' }}>Order</a>
+          <a href="#order" className="btn-primary" style={{ padding: '0.6rem 1.5rem', fontSize: 'clamp(0.7rem, 2vw, 0.85rem)', borderRadius: '12px' }}>Order Now</a>
         </nav>
       </div>
     </header>
