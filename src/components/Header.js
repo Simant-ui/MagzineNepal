@@ -27,9 +27,10 @@ const Header = () => {
           <a href="#features" style={{ textDecoration: 'none', color: 'var(--text-main)', fontWeight: 500, fontSize: '0.9rem' }}>Features</a>
           <button 
             onClick={() => setIsModalOpen(true)}
-            style={{ background: 'none', border: 'none', color: 'var(--text-main)', fontWeight: 500, fontSize: '0.9rem', cursor: 'pointer' }}
+            className="btn-primary"
+            style={{ padding: '0.5rem 1.2rem', fontSize: '0.9rem' }}
           >
-            Saved Invoice
+            Saved Order
           </button>
           <a href="#order" className="btn-primary" style={{ padding: '0.7rem 1.8rem', fontSize: '0.9rem', borderRadius: '12px' }}>Order Now</a>
         </nav>

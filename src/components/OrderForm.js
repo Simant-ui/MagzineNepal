@@ -14,7 +14,8 @@ const OrderForm = () => {
     language: 'english',
     delivery: 'printed',
     pages: 8,
-    driveLink: ''
+    driveLink: '',
+    otherOccasion: ''
   });
 
   const totalPrice = formData.pages * 105;
@@ -172,10 +173,24 @@ const OrderForm = () => {
                 <option value="surprise">Surprise Gift</option>
                 <option value="graduation">Graduation</option>
                 <option value="memory">Memory Book</option>
+                <option value="other">Other</option>
               </select>
             </div>
+            {formData.occasion === 'other' && (
+              <div className="input-group" style={{ animation: 'fadeIn 0.3s ease' }}>
+                <label>Specify Occasion *</label>
+                <input 
+                  type="text" 
+                  name="otherOccasion" 
+                  placeholder="e.g. Wedding, Travel, Baby Shower" 
+                  value={formData.otherOccasion} 
+                  onChange={handleChange}
+                  required 
+                />
+              </div>
+            )}
             <div className="input-group">
-              <label>Number of Pages (Min 8, +4 steps)</label>
+              <label>Number of Pages</label>
               <select name="pages" value={formData.pages} onChange={(e) => setFormData({ ...formData, pages: parseInt(e.target.value) })}>
                 {[...Array(24)].map((_, i) => {
                   const p = 8 + (i * 4);
@@ -195,12 +210,18 @@ const OrderForm = () => {
           }}>
             <span style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>Estimated Total Price:</span>
             <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--primary)' }}>Rs. {totalPrice}</div>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>(@ Rs. 105 per page)</span>
           </div>
 
           <div className="input-group">
             <label>Description (What should we write?)</label>
-            <textarea name="description" rows="4" placeholder="Tell us about the memories, messages, or quotes you'd like to include..." onChange={handleChange}></textarea>
+            <textarea 
+              name="description" 
+              rows="4" 
+              placeholder="Tell us about the person, your relationship, memorable moments, and any message or wishes you’d like to include." 
+              value={formData.description}
+              onChange={handleChange}
+              maxLength={5000}
+            ></textarea>
           </div>
 
           <div className="input-group">
@@ -256,9 +277,38 @@ const OrderForm = () => {
           </div>
 
           <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-            <button type="submit" className="btn-primary" style={{ width: '100%', fontSize: '1.2rem' }}>
+            <motion.button 
+              type="submit" 
+              className="btn-primary" 
+              disabled={
+                !formData.fullName || 
+                formData.phone.length !== 10 || 
+                (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) ||
+                (formData.occasion === 'other' && !formData.otherOccasion)
+              }
+              animate={{
+                scale: (!formData.fullName || formData.phone.length !== 10 || (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) || (formData.occasion === 'other' && !formData.otherOccasion)) ? 1 : [1, 1.02, 1],
+                boxShadow: (!formData.fullName || formData.phone.length !== 10 || (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) || (formData.occasion === 'other' && !formData.otherOccasion)) 
+                  ? 'none' 
+                  : '0 0 20px rgba(212, 163, 115, 0.4)'
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              style={{ 
+                width: '100%', 
+                fontSize: '1.2rem',
+                opacity: (!formData.fullName || formData.phone.length !== 10 || (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) || (formData.occasion === 'other' && !formData.otherOccasion)) ? 0.5 : 1,
+                cursor: (!formData.fullName || formData.phone.length !== 10 || (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) || (formData.occasion === 'other' && !formData.otherOccasion)) ? 'not-allowed' : 'pointer',
+                border: 'none',
+                padding: '1.2rem',
+                borderRadius: 'var(--radius-md)'
+              }}
+            >
               Place Your Order
-            </button>
+            </motion.button>
             <p style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
               No immediate payment required. We will contact you for confirmation.
             </p>

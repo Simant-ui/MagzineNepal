@@ -142,7 +142,7 @@ const OrdersModal = ({ isOpen, onClose }) => {
             <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid #eee', background: '#fcfcfc' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h2 style={{ fontSize: '1.5rem', fontWeight: '800' }}>
-                  {selectedOrder ? 'Order Details' : 'Customer List'}
+                  {selectedOrder ? 'Order Details' : 'Saved Orders'}
                 </h2>
                 {selectedOrder && (
                   <button 
@@ -189,7 +189,9 @@ const OrdersModal = ({ isOpen, onClose }) => {
                     </div>
                     <div className="glass" style={{ padding: '1rem', borderRadius: '10px' }}>
                       <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Occasion</p>
-                      <p style={{ fontWeight: '600' }}>{selectedOrder.occasion}</p>
+                      <p style={{ fontWeight: '600', textTransform: 'capitalize' }}>
+                        {selectedOrder.occasion === 'other' ? selectedOrder.otherOccasion : selectedOrder.occasion}
+                      </p>
                     </div>
                   </div>
 

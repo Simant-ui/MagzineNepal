@@ -4,18 +4,20 @@ import nodemailer from 'nodemailer';
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { fullName, phone, email, occasion, pages, description, theme, language, delivery, totalPrice, driveLink } = body;
+    const { fullName, phone, email, occasion, otherOccasion, pages, description, theme, language, delivery, totalPrice, driveLink } = body;
+    
+    const finalOccasion = occasion === 'other' ? otherOccasion : occasion;
 
     // Create a transporter using your email credentials
     console.log('Attempting to send email for:', fullName);
-    
+
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
       secure: true, // Use SSL
       auth: {
         user: 'magzinenepal@gmail.com',
-        pass: 'fffhrpnkkfdlxyxh' 
+        pass: 'fffhrpnkkfdlxyxh'
       }
     });
 
@@ -30,8 +32,8 @@ export async function POST(req) {
 
     const mailOptions = {
       from: '"Magzine Memories" <magzinenepal@gmail.com>',
-      to: 'magzinenepal@gmail.com, shrestha246810@gmail.com',
-      replyTo: email, // Set reply-to as customer's email
+      to: 'magzinenepal@gmail.com, shrestha246810@gmail.com, simantshrestha2002@gmail.com, krishna726175@gmail.com',
+      replyTo: email,
       subject: `New Order from ${fullName} - ${pages} Pages`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; color: #333; line-height: 1.6;">
@@ -48,7 +50,7 @@ export async function POST(req) {
             <p><strong>Email:</strong> ${email}</p>
             
             <h2 style="color: #d4a373; border-bottom: 2px solid #f0e2d3; padding-bottom: 10px;">Order Details</h2>
-            <p><strong>Occasion:</strong> ${occasion}</p>
+            <p><strong>Occasion:</strong> ${finalOccasion}</p>
             <p><strong>Number of Pages:</strong> ${pages}</p>
             <p><strong>Theme Style:</strong> ${theme}</p>
             <p><strong>Language:</strong> ${language || 'N/A'}</p>
