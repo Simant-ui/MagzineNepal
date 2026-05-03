@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 const Hero = () => {
   return (
     <section style={{ 
-      paddingTop: '160px', 
-      paddingBottom: '100px',
+      paddingTop: 'clamp(100px, 15vh, 160px)', 
+      paddingBottom: 'clamp(60px, 10vh, 100px)',
       background: '#fffdf0',
       textAlign: 'center',
       position: 'relative',
@@ -69,14 +69,14 @@ const Hero = () => {
           </a>
         </motion.div>
         
-        <div style={{ 
+        <div className="flex-responsive" style={{ 
           marginTop: '4rem', 
           fontSize: '0.9rem', 
           color: '#1a1a1a', 
           display: 'flex', 
           justifyContent: 'center', 
-          gap: '2rem',
-          fontWeight: '500'
+          gap: '2.5rem',
+          fontWeight: '600'
         }}>
           <span>✓ 2-3 Days Delivery</span>
           <span>✓ Digital & Printed Copies</span>

@@ -20,7 +20,7 @@ const Testimonials = () => {
     {
       name: "Anish Gupta",
       location: "Pokhara",
-      text: "The best gift idea in Nepal. Magzine Memories handled everything professionally. The design is very high-end.",
+      text: "The best gift idea in Nepal. Magzine Nepal handled everything professionally. The design is very high-end.",
       stars: 5
     },
     {

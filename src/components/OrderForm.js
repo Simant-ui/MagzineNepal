@@ -39,15 +39,13 @@ const OrderForm = () => {
       return;
     }
 
-    // Validate link ONLY IF provided
-    if (formData.driveLink) {
-      const isDrive = formData.driveLink.includes('drive.google.com') || formData.driveLink.includes('google.com/drive');
-      const isPhotos = formData.driveLink.includes('photos.google.com') || formData.driveLink.includes('photos.app.goo.gl') || formData.driveLink.includes('goo.gl/photos');
-
-      if (!isDrive && !isPhotos) {
-        alert("Error: Only Google Drive or Google Photos links are accepted. Please provide a valid link or leave it empty.");
-        return;
-      }
+    // Strict URL validation for Google Drive/Photos (Mandatory)
+    const isDrive = formData.driveLink.includes('drive.google.com') || formData.driveLink.includes('google.com/drive');
+    const isPhotos = formData.driveLink.includes('photos.google.com') || formData.driveLink.includes('photos.app.goo.gl') || formData.driveLink.includes('goo.gl/photos');
+    
+    if (!isDrive && !isPhotos) {
+      alert("Error: Only Google Drive or Google Photos links are accepted. Please provide a valid link to your photos.");
+      return;
     }
 
     // Create order object
@@ -123,25 +121,24 @@ const OrderForm = () => {
           <p style={{ color: 'var(--text-muted)' }}>Fill in the details below and we'll handle the rest.</p>
         </div>
 
-        <motion.form
+        <motion.form 
+          onSubmit={handleSubmit}
+          className="glass"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          onSubmit={handleSubmit}
-          className="glass"
-          style={{
-            padding: '3rem',
-            borderRadius: 'var(--radius-lg)',
-            maxWidth: '800px',
-            margin: '0 auto',
-            boxShadow: 'var(--shadow-soft)'
+          style={{ 
+            padding: 'clamp(1.2rem, 5vw, 3rem)', 
+            borderRadius: 'var(--radius-lg)', 
+            boxShadow: 'var(--shadow-soft)',
+            maxWidth: '900px',
+            margin: '0 auto'
           }}
         >
-          <h3 style={{ marginBottom: '2rem', borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '1rem', fontWeight: '800' }}>1. Personal Information</h3>
           <div className="grid grid-2">
             <div className="input-group">
               <label>Full Name *</label>
-              <input type="text" name="fullName" required placeholder="Simant Shrestha" onChange={handleChange} />
+              <input type="text" name="fullName" required placeholder="Simant Shrestha" value={formData.fullName} onChange={handleChange} />
             </div>
             <div className="input-group">
               <label>Phone Number *</label>
@@ -228,16 +225,16 @@ const OrderForm = () => {
           </div>
 
           <div className="input-group">
-            <label>Google Drive or Google Photos Link (Optional)</label>
+            <label>Google Drive or Google Photos Link *</label>
             <div style={{
               border: '2px solid var(--primary)',
-              padding: '1.5rem',
+              padding: 'clamp(1rem, 4vw, 1.5rem)',
               borderRadius: 'var(--radius-md)',
               background: 'rgba(212, 163, 115, 0.05)',
               transition: 'var(--transition)'
             }}>
               <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
-                If you have your photos ready, upload them to <strong>Google Drive</strong> or <strong>Google Photos</strong> and paste the link here.
+                Please upload your photos to <strong>Google Drive</strong> or <strong>Google Photos</strong>, set the access to "Anyone with the link", and paste the link here.
               </p>
               <input 
                 type="url" 
@@ -285,13 +282,14 @@ const OrderForm = () => {
               className="btn-primary" 
               disabled={
                 !formData.fullName || 
+                !formData.email ||
                 formData.phone.length !== 10 || 
-                (formData.occasion === 'other' && !formData.otherOccasion) ||
-                (formData.driveLink && !formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl'))
+                (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) ||
+                (formData.occasion === 'other' && !formData.otherOccasion)
               }
               animate={{
-                scale: (!formData.fullName || formData.phone.length !== 10 || (formData.occasion === 'other' && !formData.otherOccasion) || (formData.driveLink && !formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl'))) ? 1 : [1, 1.02, 1],
-                boxShadow: (!formData.fullName || formData.phone.length !== 10 || (formData.occasion === 'other' && !formData.otherOccasion) || (formData.driveLink && !formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl'))) 
+                scale: (!formData.fullName || !formData.email || formData.phone.length !== 10 || (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) || (formData.occasion === 'other' && !formData.otherOccasion)) ? 1 : [1, 1.02, 1],
+                boxShadow: (!formData.fullName || !formData.email || formData.phone.length !== 10 || (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) || (formData.occasion === 'other' && !formData.otherOccasion)) 
                   ? 'none' 
                   : '0 0 20px rgba(212, 163, 115, 0.4)'
               }}
@@ -303,8 +301,8 @@ const OrderForm = () => {
               style={{ 
                 width: '100%', 
                 fontSize: '1.2rem',
-                opacity: (!formData.fullName || formData.phone.length !== 10 || (formData.occasion === 'other' && !formData.otherOccasion) || (formData.driveLink && !formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl'))) ? 0.5 : 1,
-                cursor: (!formData.fullName || formData.phone.length !== 10 || (formData.occasion === 'other' && !formData.otherOccasion) || (formData.driveLink && !formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl'))) ? 'not-allowed' : 'pointer',
+                opacity: (!formData.fullName || !formData.email || formData.phone.length !== 10 || (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) || (formData.occasion === 'other' && !formData.otherOccasion)) ? 0.5 : 1,
+                cursor: (!formData.fullName || !formData.email || formData.phone.length !== 10 || (!formData.driveLink.includes('google.com') && !formData.driveLink.includes('goo.gl')) || (formData.occasion === 'other' && !formData.otherOccasion)) ? 'not-allowed' : 'pointer',
                 border: 'none',
                 padding: '1.2rem',
                 borderRadius: 'var(--radius-md)'

@@ -73,20 +73,22 @@ const OrdersModal = ({ isOpen, onClose }) => {
       alignItems: 'center',
       justifyContent: 'center',
       padding: '2rem'
+      padding: '1rem'
     }}>
       <motion.div 
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
+        className="glass"
         style={{
-          background: '#fff',
-          borderRadius: 'var(--radius-lg)',
-          width: '100%',
-          maxWidth: '800px',
+          width: 'min(95%, 900px)',
           maxHeight: '90vh',
-          overflow: 'hidden',
+          borderRadius: 'var(--radius-lg)',
+          position: 'relative',
           display: 'flex',
           flexDirection: 'column',
-          position: 'relative'
+          overflow: 'hidden',
+          background: '#fff',
+          boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)'
         }}
       >
         <button 

@@ -31,7 +31,7 @@ export async function POST(req) {
     }
 
     const mailOptions = {
-      from: '"Magzine Memories" <magzinenepal@gmail.com>',
+      from: '"Magzine Nepal" <magzinenepal@gmail.com>',
       to: 'magzinenepal@gmail.com, shrestha246810@gmail.com, simantshrestha2002@gmail.com, krishna726175@gmail.com, 2005.khatiwadanelson@gmail.com',
       replyTo: email,
       subject: `New Order from ${fullName} - ${pages} Pages`,
@@ -67,7 +67,7 @@ export async function POST(req) {
           </div>
           
           <p style="margin-top: 30px; font-size: 0.8rem; color: #888; text-align: center;">
-            This is an automated notification from your Magzine Memories website.
+            This is an automated notification from your Magzine Nepal website.
           </p>
         </div>
       `

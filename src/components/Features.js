@@ -41,7 +41,7 @@ const Features = () => {
     <section id="features" style={{ padding: '100px 0', background: '#fff' }}>
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
-          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', fontWeight: '800' }}>Why Choose Magzine Memories?</h2>
+          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', fontWeight: '800' }}>Why Choose Magzine Nepal?</h2>
           <p style={{ color: 'var(--text-muted)' }}>We provide the best personalized magazine experience in Nepal.</p>
         </div>
 

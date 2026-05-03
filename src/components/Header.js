@@ -18,21 +18,34 @@ const Header = () => {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <div style={{ fontSize: '1.5rem', fontWeight: '800' }}>
-          <span className="font-serif" style={{ color: 'var(--primary)' }}>Magzine</span> <span className="font-serif" style={{ color: '#000' }}>Memories</span>
+        <div style={{ fontSize: 'clamp(1.1rem, 4vw, 1.5rem)', fontWeight: '800' }}>
+          <span className="font-serif" style={{ color: 'var(--primary)' }}>Magzine</span> <span className="font-serif" style={{ color: '#000' }}>Nepal</span>
         </div>
-        <nav style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+        
+        {/* Desktop Nav */}
+        <nav className="nav-desktop" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <a href="#" style={{ textDecoration: 'none', color: 'var(--text-main)', fontWeight: 500, fontSize: '0.9rem' }}>Home</a>
           <a href="#samples" style={{ textDecoration: 'none', color: 'var(--text-main)', fontWeight: 500, fontSize: '0.9rem' }}>Samples</a>
-          <a href="#features" style={{ textDecoration: 'none', color: 'var(--text-main)', fontWeight: 500, fontSize: '0.9rem' }}>Features</a>
           <button 
             onClick={() => setIsModalOpen(true)}
             className="btn-primary"
-            style={{ padding: '0.5rem 1.2rem', fontSize: '0.9rem' }}
+            style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}
           >
             Saved Order
           </button>
-          <a href="#order" className="btn-primary" style={{ padding: '0.7rem 1.8rem', fontSize: '0.9rem', borderRadius: '12px' }}>Order Now</a>
+          <a href="#order" className="btn-primary" style={{ padding: '0.6rem 1.5rem', fontSize: '0.85rem', borderRadius: '12px' }}>Order Now</a>
+        </nav>
+
+        {/* Mobile Nav */}
+        <nav className="nav-mobile" style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="btn-primary"
+            style={{ padding: '0.4rem 0.8rem', fontSize: '0.75rem' }}
+          >
+            Orders
+          </button>
+          <a href="#order" className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.75rem', borderRadius: '8px' }}>Order</a>
         </nav>
       </div>
     </header>

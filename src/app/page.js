@@ -7,7 +7,7 @@ import Testimonials from '@/components/Testimonials';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-  title: 'Magzine Memories | Personalized Magazine Gifts in Nepal',
+  title: 'Magzine Nepal | Personalized Magazine Gifts in Nepal',
   description: 'Turn your memories into a beautiful, professionally designed magazine. The perfect personalized gift for birthdays, anniversaries, and special moments in Nepal.',
 };
 

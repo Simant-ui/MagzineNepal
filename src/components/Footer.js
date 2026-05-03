@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container">
         <div className="grid grid-3">
           <div>
-            <h3 className="font-serif" style={{ fontSize: '1.8rem', color: 'var(--primary)', marginBottom: '1rem' }}>Magzine Memories</h3>
+            <h3 className="font-serif" style={{ fontSize: '1.8rem', color: 'var(--primary)', marginBottom: '1rem' }}>Magzine Nepal</h3>
             <p style={{ color: '#aaa', fontSize: '0.9rem' }}>
               We turn your most precious memories into beautiful, professionally designed magazines. 
               The perfect gift for any occasion in Nepal.
@@ -44,7 +44,7 @@ const Footer = () => {
           color: '#666',
           fontSize: '0.8rem'
         }}>
-          &copy; {new Date().getFullYear()} Magzine Memories. All rights reserved.
+          &copy; {new Date().getFullYear()} Magzine Nepal. All rights reserved.
         </div>
       </div>
 
