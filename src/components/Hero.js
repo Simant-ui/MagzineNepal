@@ -78,7 +78,7 @@ const Hero = () => {
           gap: '2.5rem',
           fontWeight: '600'
         }}>
-          <span>✓ 2-3 Days Delivery</span>
+          <span>✓ 4-6 Days Delivery</span>
           <span>✓ Digital & Printed Copies</span>
           <span>✓ Premium Quality</span>
         </div>

@@ -18,7 +18,7 @@ const Features = () => {
     {
       icon: <Truck size={32} />,
       title: "Fast Delivery",
-      desc: "Get your printed magazine delivered to your doorstep within 2-3 days in Nepal."
+      desc: "Get your printed magazine delivered to your doorstep within 4-6 days in Nepal."
     },
     {
       icon: <Heart size={32} />,
