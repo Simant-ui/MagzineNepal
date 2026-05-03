@@ -31,7 +31,7 @@ const OrderForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (formData.phone.length !== 10) {
@@ -55,15 +55,25 @@ const OrderForm = () => {
       totalPrice: totalPrice
     };
 
-    // Save to localStorage
+    // Save to server-side persistence (for cross-device access)
+    try {
+      await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newOrder)
+      });
+    } catch (error) {
+      console.error('Failed to sync with server:', error);
+    }
+
+    // Also keep local copy for immediate feedback
     try {
       const existingOrders = JSON.parse(localStorage.getItem('magzine_orders') || '[]');
       localStorage.setItem('magzine_orders', JSON.stringify([...existingOrders, newOrder]));
-    } catch (err) {
-      console.error('Failed to save order to localStorage:', err);
-    }
+    } catch (e) { console.error(e); }
 
-    // Send email via our API
+    // Send email notification
+    setIsLoading(true);
     fetch('/api/order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

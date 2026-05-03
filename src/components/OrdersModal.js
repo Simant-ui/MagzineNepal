@@ -12,12 +12,25 @@ const OrdersModal = ({ isOpen, onClose }) => {
   const ADMIN_PIN = "2026"; // You can change this
 
   useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await fetch('/api/orders');
+        const data = await response.json();
+        // Combine with local storage if needed, but primary source is server
+        setOrders(data.reverse());
+      } catch (error) {
+        console.error('Failed to fetch orders from server:', error);
+        // Fallback to local storage
+        const saved = JSON.parse(localStorage.getItem('magzine_orders') || '[]');
+        setOrders(saved.reverse());
+      }
+    };
+    
     if (isOpen) {
       setPin('');
       setIsAuthorized(false);
       setError('');
-      const savedOrders = JSON.parse(localStorage.getItem('magzine_orders') || '[]');
-      setOrders(savedOrders);
+      fetchOrders();
     }
   }, [isOpen]);
 
@@ -43,15 +56,29 @@ const OrdersModal = ({ isOpen, onClose }) => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [activeMenu, setActiveMenu] = useState(null);
 
-  const deleteOrder = (index) => {
+  const deleteOrder = async (orderId, index) => {
     if (window.confirm("Are you sure you want to delete this order?")) {
-      const actualIndex = orders.length - 1 - index;
-      const updatedOrders = [...orders];
-      updatedOrders.splice(actualIndex, 1);
-      localStorage.setItem('magzine_orders', JSON.stringify(updatedOrders));
-      setOrders(updatedOrders);
-      setActiveMenu(null);
-      if (selectedOrder && selectedOrder.index === index) setSelectedOrder(null);
+      try {
+        // Delete from server
+        await fetch('/api/orders', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: orderId })
+        });
+        
+        // Update local state
+        const updatedOrders = orders.filter((_, i) => i !== index);
+        setOrders(updatedOrders);
+        
+        // Update local storage fallback
+        localStorage.setItem('magzine_orders', JSON.stringify(updatedOrders));
+        
+        setActiveMenu(null);
+        if (selectedOrder && selectedOrder.id === orderId) setSelectedOrder(null);
+      } catch (error) {
+        console.error('Failed to delete order:', error);
+        alert('Failed to delete order from server.');
+      }
     }
   };
 
@@ -223,8 +250,8 @@ const OrdersModal = ({ isOpen, onClose }) => {
               ) : (
                 /* LIST VIEW */
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                  {[...orders].reverse().map((order, idx) => (
-                    <div key={idx} style={{ 
+                  {[...orders].sort((a, b) => new Date(b.date) - new Date(a.date)).map((order, idx) => (
+                    <div key={order.id || idx} style={{ 
                       padding: '1rem 1.5rem', 
                       borderRadius: '12px', 
                       border: '1px solid #eee',
@@ -273,7 +300,7 @@ const OrdersModal = ({ isOpen, onClose }) => {
                               View Detail
                             </button>
                             <button 
-                              onClick={() => deleteOrder(idx)}
+                              onClick={() => deleteOrder(order.id, idx)}
                               style={{ width: '100%', padding: '10px 15px', textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.9rem', color: 'red', borderTop: '1px solid #f5f5f5' }}
                             >
                               Delete
